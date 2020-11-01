@@ -1,0 +1,130 @@
+#include<stdio.h>
+#include<stdlib.h>
+struct node
+{
+    int data;
+    struct node* left;
+    struct node* right;
+};
+
+struct node* root=NULL;
+
+void insert(int val)
+{
+    struct node* t=root;
+    struct node *r=NULL,*n;
+    if(root==NULL)
+    {
+        n=(struct node*)malloc(sizeof(struct node));
+        n->data=val;
+        n->right=NULL;
+        n->left=NULL;
+        root=n;
+        printf("\nInserted %d",val);
+        return;
+    }
+    while(t!=NULL)
+    {
+        r=t;
+        if(val< t->data)
+        {
+            t=t->left;
+        }
+        else if(val > t->data)
+        {
+            t=t->right;
+        }
+        else if(t->data==val)
+         {
+            printf("\nSame value can't be inserted");
+            return;
+        }
+    }
+    n=(struct node*)malloc(sizeof(struct node));
+        n->data=val;
+        n->right=NULL;
+        n->left=NULL;
+    if(val<r->data)
+    {
+        r->left=n;
+    }
+    else
+        r->right=n;
+    printf("\nInserted: %d",val);
+
+}
+
+void inorder(struct node* p)
+{
+    if(p)
+    {
+        inorder(p->left);
+        printf("%d ",p->data);
+        inorder(p->right);
+    }
+}
+
+//recursive insert function
+struct node* R_insert(struct node* root,int key)
+{
+    if(root==NULL)
+    {
+        struct node* n;
+        n=(struct node*)malloc(sizeof(struct node));
+        n->data=key;
+        n->right=NULL;
+        n->left=NULL;
+        root=n;
+        return root;
+    }
+    if(key < root->data)
+    {
+        root->left=R_insert(root->left,key);
+    }
+    else if(key > root->data)
+    {
+        root->right=R_insert(root->right,key);
+    }
+    else
+    {
+        printf("\nNode value are equal and can not insert");
+        return root;
+    }
+    return root;
+};
+
+int main()
+{
+    int option,val;
+    do
+    {
+        printf("\n------------------");
+        printf("\n1-insert\n2-inorder\n3-recursive-insert");
+        printf("\n-------------------");
+        printf("\nEnter the option: ");
+        scanf("%d",&option);
+        switch(option)
+        {
+        case 0:
+            break;
+        case 1:
+            printf("\nEnter the value to be inserted: ");
+            scanf("%d",&val);
+            insert(val);
+            break;
+        case 2:
+            printf("\nInorder traversal: \n");
+            inorder(root);
+            break;
+        case 3:
+            printf("\nEnter the value you want to insert: ");
+            scanf("%d",&val);
+            root=R_insert(root,val);
+            break;
+        default:
+            printf("\nEnter the correct option");
+        }
+    }while(option!=0);
+
+    return 0;
+}
